@@ -1,0 +1,13 @@
+Info.pm
+INSTALL
+Makefile.PL
+MANIFEST
+META.yml
+README
+t/clink.wav
+t/faac.bat
+t/faac.m4a
+t/iTunes.m4a
+t/iTunes_utf8.m4a
+t/nero.mp4
+t/test.t
