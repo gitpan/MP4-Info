@@ -12,14 +12,14 @@ use vars qw(
 	   );
 
 @ISA = 'Exporter';
-@EXPORT      = qw(get_mp4tag get_mp4info use_winamp_genres);
+@EXPORT      = qw(get_mp4tag get_mp4info);
 @EXPORT_OK   = qw(use_mp4_utf8);
 %EXPORT_TAGS = (
 		utf8	=> [qw(use_mp4_utf8)],
 		all	=> [@EXPORT, @EXPORT_OK]
 	       );
 
-$VERSION = '1.00';
+$VERSION = '1.01';
 
 my $debug = 0;
 
@@ -139,15 +139,6 @@ sub use_mp4_utf8
 }
 
 
-# Does nothing - exists for compatibility with L<MP3::Info|MP3::Info>.
-sub use_winamp_genres
-{
-    return 1;
-}
-
-
-=pod
-
 =item get_mp4tag (FILE)
 
 Returns hash reference containing the tag information from the MP4 file.
@@ -192,8 +183,6 @@ sub get_mp4tag
     return parse_file ($file, \%tags) ? undef : {%tags};
 }
 
-
-=pod
 
 =item get_mp4info (FILE)
 
@@ -688,11 +677,12 @@ __END__
 
 ############################################################################
 
-=pod
-
 =back
 
 =head1 BUGS
+
+The calculation of bitrate is not very accurate, and tends to be under the
+real bitrate.
 
 If you find a bug, please send me a patch. If you cannot figure out why it
 does not work for you, please put the MP4 file in a place where I can get it
@@ -714,7 +704,7 @@ Chris Nandor E<lt>pudge@pobox.comE<gt> for writing L<MP3::Info|MP3::Info>
 
 =item MP4::Info Project Page
 
-L<http://www.marginal.org.uk/mp4info/>
+L<http://search.cpan.org/~jhar/MP4-Info>
 
 =item ISO 14496-12:2004 - Coding of audio-visual objects - Part 12: ISO base media file format
 
