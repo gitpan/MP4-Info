@@ -5,9 +5,11 @@ MANIFEST
 META.yml
 README
 t/clink.wav
-t/faac.bat
+t/dumpinfo.pl
+t/faacenc.bat
 t/faac.m4a
 t/iTunes.m4a
 t/iTunes_utf8.m4a
 t/nero.mp4
+t/real.m4a
 t/test.t

@@ -3,7 +3,7 @@
 use strict;
 use Test;
 
-BEGIN { plan tests => 310 }
+BEGIN { plan tests => 406 }
 
 use MP4::Info;
 
@@ -32,7 +32,7 @@ my %mp4s =
 			VERSION	=> 4,
 			LAYER	=> 1,
 			BITRATE	=> 16,
-			FREQUENCY => 8000,
+			FREQUENCY => 8,
 			SIZE	=> 2353,
 			SECS	=> 1,
 			MM	=> 0,
@@ -58,7 +58,7 @@ my %mp4s =
 			VERSION	=> 4,
 			LAYER	=> 1,
 			BITRATE	=> 50,
-			FREQUENCY => 44100,
+			FREQUENCY => 44.1,
 			SIZE	=> 6962,
 			SECS	=> 1,
 			MM	=> 0,
@@ -84,13 +84,39 @@ my %mp4s =
 			VERSION	=> 4,
 			LAYER	=> 1,
 			BITRATE	=> 21,
-			FREQUENCY => 8000,
+			FREQUENCY => 8,
 			SIZE	=> 3030,
 			SECS	=> 1,
 			MM	=> 0,
 			SS	=> 1,
 			MS	=> 153,
 			TIME	=> '00:01',
+		       },
+     't/real.m4a' =>   {
+			ALB	=> 'Album',
+			#APID
+			ART	=> 'A®tist',
+			CMT	=> 'Comment',
+			#CPIL
+			DAY	=> 2004,
+			#DISK
+			GNRE	=> 'Acid Jazz',
+			#GRP
+			NAM	=> 'Nªme',
+			#TMPO
+			TOO	=> 'Helix Producer SDK 10.0 for Windows, Build 10.0.0.240',
+			TRKN	=> [1,0],
+			#WRT
+			VERSION	=> 4,
+			LAYER	=> 1,
+			BITRATE	=> 93,
+			FREQUENCY => 1,	# What part of "the sampling rate of the audio should be ... documented in the samplerate field" don't Real understand?
+			SIZE	=> 131682,
+			SECS	=> 11,
+			MM	=> 0,
+			SS	=> 11,
+			MS	=> 53,
+			TIME	=> '00:11',
 		       },
     );
 
@@ -102,7 +128,8 @@ foreach my $file (sort keys %mp4s)
 
     # Tags
     my $tags = get_mp4tag ($file);
-    ok (defined($tags));
+    ok (defined($tags), 1, "file='$file'");
+
     foreach my $tag (@mp4tags)
     {
 	dodata ($tags, $ref, $tag);
@@ -120,6 +147,7 @@ foreach my $file (sort keys %mp4s)
     # File info
     my $info = get_mp4info ($file);
     ok (defined($info));
+
     foreach my $tag (@mp4info)
     {
 	dodata ($tags, $ref, $tag);
@@ -133,7 +161,7 @@ foreach my $file (sort keys %mp4s)
     push @mbr, @mp4info;
     foreach my $tag (@mbr)
     {
-	dofunc ($mp4, $ref, $tag);
+	dofunc ($mp4, $ref, $tag)
     }
 }
 
@@ -165,18 +193,11 @@ sub dodata
 {
     my ($tags, $refdata, $tag) = @_;
 
-    if (($tag eq 'TRKN') || ($tag eq 'DISK'))
+    if ((($tag eq 'TRKN') || ($tag eq 'DISK')) && defined($refdata->{$tag}))
     {
-	if (defined($refdata->{$tag}))
-	{
-	    ok (@{$tags->{$tag}}, 2, "tag='$tag'");
-	    ok ($tags->{$tag}[0], $refdata->{$tag}[0], "tag='$tag'");
-	    ok ($tags->{$tag}[1], $refdata->{$tag}[1], "tag='$tag'");
-	}
-	else
-	{
-	    ok ($tags->{$tag}, undef, "tag='$tag'");
-	}
+	ok (@{$tags->{$tag}}, 2, "tag='$tag'");
+	ok ($tags->{$tag}[0], $refdata->{$tag}[0], "tag='$tag'");
+	ok ($tags->{$tag}[1], $refdata->{$tag}[1], "tag='$tag'");
     }
     else
     {
@@ -191,18 +212,12 @@ sub dofunc
 
     for my $fn ($tag, lc $tag)
     {
-	if (($tag eq 'TRKN') || ($tag eq 'DISK'))
+	if ((($tag eq 'TRKN') || ($tag eq 'DISK')) &&
+	    defined($refdata->{$tag}))
 	{
-	    if (defined($refdata->{$tag}))
-	    {
-		ok (@{$mp4->$fn}, 2, "fn='$fn'");
-		ok (${$mp4->$fn}[0], $refdata->{$tag}[0], "fn='$fn'");
-		ok (${$mp4->$fn}[1], $refdata->{$tag}[1], "fn='$fn'");
-	    }
-	    else
-	    {
-		ok ($mp4->$fn, undef, "fn='$fn'");
-	    }
+	    ok (@{$mp4->$fn}, 2, "fn='$fn'");
+	    ok (${$mp4->$fn}[0], $refdata->{$tag}[0], "fn='$fn'");
+	    ok (${$mp4->$fn}[1], $refdata->{$tag}[1], "fn='$fn'");
 	}
 	else
 	{
@@ -211,3 +226,7 @@ sub dofunc
 	}
     }
 }
+
+# Local Variables:
+# cperl-set-style: BSD
+# End:

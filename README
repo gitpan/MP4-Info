@@ -6,13 +6,17 @@ NAME
 ============================================================================
 CHANGES
 
-    1.02 2004-09-06
-      - Added dependency on 'Encode' module to Makefile.PL
+    1.03 2005-02-12
+      - Fixed refusal to handle non UTF-encoded character data produced by
+        Real & faac. Now assumes data is encoded as latin1 if it can't be
+	UTF8 or UTF16.
+      - Fixed frequency. Now returned in kHz not Hz.
+      - Workaround for Real listing unknown year as 0.
 
 ============================================================================
 DESCRIPTION
 
-    The MP4::Info module can be used to extract tag and file information
+    The MP4::Info module can be used to extract tag and meta information
     from MPEG-4 audio (AAC) and video files. It is designed as a drop-in
     replacement for MP3::Info.
 
@@ -55,7 +59,7 @@ SEE ALSO
 ============================================================================
 COPYRIGHT and LICENSE
 
-    Copyright (c) 2004, Jonathan Harris <jhar@cpan.org>
+    Copyright (c) 2004, 2005, Jonathan Harris <jhar@cpan.org>
 
     This program is free software; you can redistribute it and/or modify it
     under the the same terms as Perl itself.
