@@ -38,7 +38,7 @@ Method 1b: Standard install on Windows with nmake
 Method 2: Using CPAN.pm (UNIX or Windows)
 =========================================
 
-If you have CPAN.pm configured you can install the module as follows:
+    If you have CPAN.pm configured you can install the module as follows:
 
         perl -MCPAN -e "install 'MP4::Info'"
 

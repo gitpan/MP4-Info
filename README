@@ -6,16 +6,15 @@ NAME
 ============================================================================
 CHANGES
 
-    1.01 2004-08-23
-      - Removed undocumented use_winamp_genres() to prevent name clash
-        with MP3::Info::use_winamp_genres().
+    1.02 2004-09-06
+      - Added dependency on 'Encode' module to Makefile.PL
 
 ============================================================================
 DESCRIPTION
 
     The MP4::Info module can be used to extract tag and file information
-    from MPEG-4 files. It is designed as a drop-in replacement for
-    MP3::Info.
+    from MPEG-4 audio (AAC) and video files. It is designed as a drop-in
+    replacement for MP3::Info.
 
     Note that this module does not allow you to update the information in
     MPEG-4 files.
@@ -56,8 +55,8 @@ SEE ALSO
 ============================================================================
 COPYRIGHT and LICENSE
 
-Copyright (c) 2004, Jonathan Harris <jhar@cpan.org>
+    Copyright (c) 2004, Jonathan Harris <jhar@cpan.org>
 
-This program is free software; you can redistribute it and/or modify it
-under the the same terms as Perl itself.
+    This program is free software; you can redistribute it and/or modify it
+    under the the same terms as Perl itself.
 

@@ -19,7 +19,7 @@ use vars qw(
 		all	=> [@EXPORT, @EXPORT_OK]
 	       );
 
-$VERSION = '1.01';
+$VERSION = '1.02';
 
 my $debug = 0;
 
@@ -47,8 +47,8 @@ MP4::Info - Fetch info from MPEG-4 files (.mp4, .m4a, .m4p)
 =head1 DESCRIPTION
 
 The MP4::Info module can be used to extract tag and meta information from
-MPEG-4 files. It is designed as a drop-in replacement for
-L<MP3::Info|MP3::Info>.
+MPEG-4 files audio (AAC) and video files. It is designed as a drop-in
+replacement for L<MP3::Info|MP3::Info>.
 
 Note that this module does not allow you to update the information in MPEG-4
 files.
@@ -680,6 +680,8 @@ __END__
 =back
 
 =head1 BUGS
+
+Doesn't support writing tag information to MPEG-4 files.
 
 The calculation of bitrate is not very accurate, and tends to be under the
 real bitrate.
