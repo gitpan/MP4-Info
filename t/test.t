@@ -1,15 +1,21 @@
 #!perl -w
+#
+# Copyright (c) 2004, 2005, Jonathan Harris <jhar@cpan.org>
+#
+# This program is free software; you can redistribute it and/or modify it
+# under the the same terms as Perl itself.
+#
 
 use strict;
 use Test;
 
-BEGIN { plan tests => 406 }
+BEGIN { plan tests => 418 }
 
 use MP4::Info;
 
 my @mp4tags = qw(ALB APID ART CMT CPIL CPRT DAY DISK GNRE GRP NAM RTNG TMPO TOO TRKN WRT);
 
-my @mp4info = qw(VERSION LAYER BITRATE FREQUENCY SIZE SECS MM SS MS TIME COPYRIGHT);
+my @mp4info = qw(VERSION LAYER BITRATE FREQUENCY SIZE SECS MM SS MS TIME COPYRIGHT ENCRYPTED);
 
 my %mp4s =
     (
@@ -18,6 +24,7 @@ my %mp4s =
 			#APID
 			ART	=> 'Artist',
 			CMT	=> 'This is a Comment',
+			#COVR
 			CPIL	=> 1,
 			#CPRT
 			DAY	=> '2004',
@@ -39,13 +46,17 @@ my %mp4s =
 			MS	=> 178,
 			SS	=> 1,
 			TIME	=> '00:01',
+			#COPYRIGHT
+			ENCRYPTED => 0,
 		       },
      't/iTunes.m4a' => {
 			ALB	=> 'Album',
 			#APID
 			ART	=> 'Artist',
 			CMT	=> "Comment\r\n2nd line",
+			#COVR
 			CPIL	=> 0,
+			#CPRT
 			DAY	=> '2004',
 			DISK	=> [3,4],
 			GNRE	=> 'Acid Jazz',
@@ -65,13 +76,17 @@ my %mp4s =
 			SS	=> 1,
 			MS	=> 90,
 			TIME	=> '00:01',
+			#COPYRIGHT
+			ENCRYPTED => 0,
 		       },
      't/nero.mp4' =>   {
 			#ALB
 			#APID
 			ART	=> 'Artist',
 			#CMT
+			#COVR
 			#CPIL
+			#CPRT
 			#DAY
 			#DISK
 			#GNRE
@@ -91,13 +106,17 @@ my %mp4s =
 			SS	=> 1,
 			MS	=> 153,
 			TIME	=> '00:01',
+			#COPYRIGHT
+			ENCRYPTED => 0,
 		       },
      't/real.m4a' =>   {
 			ALB	=> 'Album',
 			#APID
 			ART	=> 'A®tist',
 			CMT	=> 'Comment',
+			#COVR
 			#CPIL
+			#CPRT
 			DAY	=> 2004,
 			#DISK
 			GNRE	=> 'Acid Jazz',
@@ -117,6 +136,8 @@ my %mp4s =
 			SS	=> 11,
 			MS	=> 53,
 			TIME	=> '00:11',
+			#COPYRIGHT
+			ENCRYPTED => 0,
 		       },
     );
 
@@ -165,20 +186,8 @@ foreach my $file (sort keys %mp4s)
     }
 }
 
-# Non-ASCII chars - latin1 encoding
-my $tags = get_mp4tag ('t/iTunes_utf8.m4a');
-ok (defined($tags));
-ok ($tags->{ALB},  "A?bum");
-ok ($tags->{ART},  "?®tist");
-ok ($tags->{CMT},  "Comm?nt");
-ok ($tags->{GNRE}, "?cid Jazz");
-ok ($tags->{GRP},  "Grou¶ing");
-ok ($tags->{NAM},  "Nªme");
-ok ($tags->{WRT},  "©omposer");
-
 # Non-ASCII chars - utf encoding
-MP4::Info::use_mp4_utf8(1);
-$tags = get_mp4tag ('t/iTunes_utf8.m4a');
+my $tags = get_mp4tag ('t/iTunes_utf8.m4a');
 ok (defined($tags));
 ok ($tags->{ALB},  "A\x{03bb}bum");	# small Lamda
 ok ($tags->{ART},  "\x{05d0}®tist");	# Alef
@@ -187,6 +196,18 @@ ok ($tags->{GNRE}, "\x{1eb4}cid Jazz");	# A with Breve And Tilde
 ok ($tags->{GRP},  "Grou¶ing");
 ok ($tags->{NAM},  "Nªme");
 ok ($tags->{WRT},  "©omposer");
+
+# Non-ASCII chars - latin1 encoding
+MP4::Info::use_mp4_utf8(0);
+$tags = get_mp4tag ('t/iTunes_utf8.m4a');
+ok (defined($tags));
+ok ($tags->{ALB},  "AÎ»bum");
+ok ($tags->{ART},  "×Â®tist");
+ok ($tags->{CMT},  "Commâ„®nt");
+ok ($tags->{GNRE}, "áº´cid Jazz");
+ok ($tags->{GRP},  "GrouÂ¶ing");
+ok ($tags->{NAM},  "NÂªme");
+ok ($tags->{WRT},  "Â©omposer");
 
 
 sub dodata

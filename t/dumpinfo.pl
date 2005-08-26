@@ -1,7 +1,6 @@
 #!perl -w
 
 use MP4::Info;
-MP4::Info::use_mp4_utf8(1);
 
 if (@ARGV != 1)
 {
@@ -21,6 +20,10 @@ foreach my $tag (sort keys %$tags)
     if (exists $tags->{$tag}[0])
     {
 	print "$tag\t", $tags->{$tag}[0], "/",  $tags->{$tag}[1], "\n";
+    }
+    elsif ($tag eq 'COVR')
+    {
+	print "$tag\t...\n";
     }
     else
     {

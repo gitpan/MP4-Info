@@ -1,17 +1,15 @@
 ============================================================================
 NAME
 
-    MP4::Info - Fetch info from MPEG-4 files (.mp4, .m4a, .m4p)
+    MP4::Info - Fetch info from MPEG-4 files (.mp4, .m4a, .m4p, .3gp)
 
 ============================================================================
 CHANGES
 
-    1.03 2005-02-12
-      - Fixed refusal to handle non UTF-encoded character data produced by
-        Real & faac. Now assumes data is encoded as latin1 if it can't be
-	UTF8 or UTF16.
-      - Fixed frequency. Now returned in kHz not Hz.
-      - Workaround for Real listing unknown year as 0.
+    1.04 2005-08-25
+      - Added cover art and DRM status.
+      - Added support for 3GPP meta-data.
+      - Changed default encoding for ambiguous data from latin1 to utf8.
 
 ============================================================================
 DESCRIPTION
