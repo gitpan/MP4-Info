@@ -6,10 +6,8 @@ NAME
 ============================================================================
 CHANGES
 
-    1.04 2005-08-25
-      - Added cover art and DRM status.
-      - Added support for 3GPP meta-data.
-      - Changed default encoding for ambiguous data from latin1 to utf8.
+    1.05 2005-09-10
+      - Added support for non-JPEG cover art.
 
 ============================================================================
 DESCRIPTION

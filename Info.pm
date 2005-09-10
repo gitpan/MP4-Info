@@ -27,7 +27,7 @@ use vars qw(
 		all	=> [@EXPORT, @EXPORT_OK]
 	       );
 
-$VERSION = '1.04';
+$VERSION = '1.05';
 
 my $debug = 0;
 
@@ -743,7 +743,7 @@ sub parse_data
 	    $tags->{$id} = $data;
 	}
     }
-    elsif ($type==13)	# Byte data
+    elsif ($type==13 || $type==14)	# Raw. Appears that 13=jpeg, 14=other
     {
 	$tags->{$id} = $data;
     }
@@ -781,7 +781,7 @@ Jonathan Harris E<lt>jhar@cpan.orgE<gt>.
 
 Chris Nandor E<lt>pudge@pobox.comE<gt> for writing L<MP3::Info|MP3::Info>
 
-Dan Sully for the cover art patch.
+Dan Sully for cover art patches.
 
 =head1 SEE ALSO
 
