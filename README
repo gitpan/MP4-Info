@@ -6,8 +6,9 @@ NAME
 ============================================================================
 CHANGES
 
-    1.05 2005-09-10
-      - Added support for non-JPEG cover art.
+    1.06 2006-03-20
+      - Add META tag containing iTunes & aacgain data
+      - Workaround for random data appended to file (eg by allofmp3.com)
 
 ============================================================================
 DESCRIPTION
