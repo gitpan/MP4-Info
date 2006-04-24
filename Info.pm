@@ -27,7 +27,7 @@ use vars qw(
 		all	=> [@EXPORT, @EXPORT_OK]
 	       );
 
-$VERSION = '1.06';
+$VERSION = '1.07';
 
 my $debug = 0;
 
@@ -723,7 +723,12 @@ sub parse_data
     }
     printf "  %sType=$type, Size=$size\n", ' 'x(2*$level) if $debug;
 
-    if ($type==0)	# 16bit int data
+    if ($id eq 'COVR')
+    {
+	# iTunes appears to use random data types for cover art
+	$tags->{$id} = $data;
+    }
+    elsif ($type==0)	# 16bit int data
     {
 	my @ints = unpack 'n' x ($size / 2), $data;
 	if ($id eq 'GNRE')
@@ -796,10 +801,6 @@ sub parse_data
 	    # Non-standard size - just return the raw data
 	    $tags->{$id} = $data;
 	}
-    }
-    elsif ($type==13 || $type==14)	# Raw. Appears that 13=jpeg, 14=other
-    {
-	$tags->{$id} = $data;
     }
 
     # Silently ignore other data types
