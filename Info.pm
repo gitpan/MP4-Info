@@ -27,7 +27,7 @@ use vars qw(
 		all	=> [@EXPORT, @EXPORT_OK]
 	       );
 
-$VERSION = '1.07';
+$VERSION = '1.08';
 
 my $debug = 0;
 
@@ -449,7 +449,14 @@ sub parse_atom
     }
 
     ($size,$id) = unpack 'Na4', $header;
-    if ($size == 1)
+    if ($size==0)
+    {
+	# Special zero-sized atom at top-level means we're done (14496-12 S4.2)
+	return 0 if $level==1;
+	$@ = 'Parse error';
+	return -1;
+    }
+    elsif ($size == 1)
     {
 	# extended size
 	my ($hi, $lo);
@@ -478,10 +485,8 @@ sub parse_atom
 	}
 	$size -= 8;
     }
-    if ($size<=0)
+    if ($size<0)
     {
-	# Special zero-sized atom means we're done
-	($size==0) && ($level==1) && return 0;
 	$@ = 'Parse error';
 	return -1;
     }
