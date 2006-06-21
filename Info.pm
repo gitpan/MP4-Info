@@ -27,7 +27,7 @@ use vars qw(
 		all	=> [@EXPORT, @EXPORT_OK]
 	       );
 
-$VERSION = '1.08';
+$VERSION = '1.09';
 
 my $debug = 0;
 
@@ -726,28 +726,27 @@ sub parse_data
 	$type &= 255;
 	$data = substr ($data, 16, $size);
     }
-    printf "  %sType=$type, Size=$size\n", ' 'x(2*$level) if $debug;
+    printf "  %sType=$type, Size=$size, $data\n", ' 'x(2*$level) if $debug;
 
     if ($id eq 'COVR')
     {
 	# iTunes appears to use random data types for cover art
 	$tags->{$id} = $data;
     }
-    elsif ($type==0)	# 16bit int data
+    elsif ($type==0)	# 16bit int data array
     {
 	my @ints = unpack 'n' x ($size / 2), $data;
 	if ($id eq 'GNRE')
 	{
 	    $tags->{$id} = $mp4_genres[$ints[0]];
 	}
-	elsif ($size>=6)
+	elsif ($id eq 'DISK' or $id eq 'TRKN')
 	{
-	    # Not sure what's going on here
-	    $tags->{$id} = [$ints[1], $ints[2]];
+	    # Real 10.0 sometimes omits the second integer, but we require it
+	    $tags->{$id} = [$ints[1], ($size>=6 ? $ints[2] : 0)] if ($size>=4);
 	}
-	else
+	elsif ($size>=4)
 	{
-	    # Or here
 	    $tags->{$id} = $ints[1];
 	}
     }
