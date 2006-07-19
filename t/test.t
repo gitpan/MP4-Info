@@ -9,13 +9,13 @@
 use strict;
 use Test;
 
-BEGIN { plan tests => 418 }
+BEGIN { plan tests => 538 }
 
 use MP4::Info;
 
 my @mp4tags = qw(ALB APID ART CMT CPIL CPRT DAY DISK GNRE GRP NAM RTNG TMPO TOO TRKN WRT);
 
-my @mp4info = qw(VERSION LAYER BITRATE FREQUENCY SIZE SECS MM SS MS TIME COPYRIGHT ENCRYPTED);
+my @mp4info = qw(VERSION LAYER BITRATE FREQUENCY SIZE SECS MM SS MS TIME COPYRIGHT ENCODING ENCRYPTED);
 
 my %mp4s =
     (
@@ -47,6 +47,7 @@ my %mp4s =
 			SS	=> 1,
 			TIME	=> '00:01',
 			#COPYRIGHT
+			ENCODING=> 'mp4a',
 			ENCRYPTED => 0,
 		       },
      't/iTunes.m4a' => {
@@ -77,6 +78,38 @@ my %mp4s =
 			MS	=> 90,
 			TIME	=> '00:01',
 			#COPYRIGHT
+			ENCODING=> 'mp4a',
+			ENCRYPTED => 0,
+		       },
+     't/lossless.m4a' => {
+			ALB	=> 'Album',
+			#APID
+			ART	=> 'Artist',
+			CMT	=> "Comment\r\n2nd line",
+			#COVR
+			CPIL	=> 0,
+			#CPRT
+			DAY	=> '2004',
+			DISK	=> [3,4],
+			GNRE	=> 'Acid Jazz',
+			GRP	=> 'Grouping',
+			NAM	=> 'Name',
+			TMPO	=> 100,
+			TOO	=> 'iTunes v6.0.5.20',
+			TRKN	=> [1,2],
+			WRT	=> 'Composer',
+			VERSION	=> 4,
+			LAYER	=> 1,
+			BITRATE	=> 190,
+			FREQUENCY => 44.1,
+			SIZE	=> 25345,
+			SECS	=> 1,
+			MM	=> 0,
+			SS	=> 1,
+			MS	=> 43,
+			TIME	=> '00:01',
+			#COPYRIGHT
+			ENCODING=> 'alac',
 			ENCRYPTED => 0,
 		       },
      't/nero.mp4' =>   {
@@ -107,6 +140,7 @@ my %mp4s =
 			MS	=> 153,
 			TIME	=> '00:01',
 			#COPYRIGHT
+			ENCODING=> 'mp4a',
 			ENCRYPTED => 0,
 		       },
      't/real.m4a' =>   {
@@ -137,6 +171,7 @@ my %mp4s =
 			MS	=> 53,
 			TIME	=> '00:11',
 			#COPYRIGHT
+			ENCODING=> 'mp4a',
 			ENCRYPTED => 0,
 		       },
     );

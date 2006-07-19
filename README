@@ -6,8 +6,9 @@ NAME
 ============================================================================
 CHANGES
 
-    1.09 2006-06-21
-      - Fix for track numbers incorrectly encoded by Rhapsody.
+    1.10 2006-07-19
+      - Return 'coding name' in new ENCODING key.
+      - Recognise Apple Lossless encoding.
 
 ============================================================================
 DESCRIPTION
