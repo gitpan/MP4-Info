@@ -20,160 +20,165 @@ my @mp4info = qw(VERSION LAYER BITRATE FREQUENCY SIZE SECS MM SS MS TIME COPYRIG
 my %mp4s =
     (
      't/faac.m4a'   => {
-			ALB	=> 'Album',
-			#APID
-			ART	=> 'Artist',
-			CMT	=> 'This is a Comment',
-			#COVR
-			CPIL	=> 1,
-			#CPRT
-			DAY	=> '2004',
-			DISK	=> [3,4],
-			GNRE	=> 'Acid Jazz',
-			#GRP
-			NAM	=> 'Name',
-			#TMPO
-			TOO	=> 'FAAC 1.24+ (Jul 14 2004) UNSTABLE',
-			TRKN	=> [1,2],
-			WRT	=> 'Composer',
-			VERSION	=> 4,
-			LAYER	=> 1,
-			BITRATE	=> 16,
-			FREQUENCY => 8,
-			SIZE	=> 2353,
-			SECS	=> 1,
-			MM	=> 0,
-			MS	=> 178,
-			SS	=> 1,
-			TIME	=> '00:01',
-			#COPYRIGHT
-			ENCODING=> 'mp4a',
-			ENCRYPTED => 0,
-		       },
+		ALB	=> 'Album',
+		#APID	=>
+		ART	=> 'Artist',
+		CMT	=> 'This is a Comment',
+		#COVR	=>
+		CPIL	=> 1,
+		#CPRT	=>
+		DAY	=> '2004',
+		DISK	=> [3,4],
+		GNRE	=> 'Acid Jazz',
+		#GRP	=>
+		NAM	=> 'Name',
+		#RTNG	=>
+		#TMPO	=>
+		TOO	=> 'FAAC 1.24+ (Jul 14 2004) UNSTABLE',
+		TRKN	=> [1,2],
+		WRT	=> 'Composer',
+		VERSION	=> 4,
+		LAYER	=> 1,
+		BITRATE	=> 16,
+		FREQUENCY => 8,
+		SIZE	=> 2353,
+		SECS	=> 1,
+		MM	=> 0,
+		MS	=> 178,
+		SS	=> 1,
+		TIME	=> '00:01',
+		COPYRIGHT => 0,
+		ENCODING  => 'mp4a',
+		ENCRYPTED => 0,
+	},
      't/iTunes.m4a' => {
-			ALB	=> 'Album',
-			#APID
-			ART	=> 'Artist',
-			CMT	=> "Comment\r\n2nd line",
-			#COVR
-			CPIL	=> 0,
-			#CPRT
-			DAY	=> '2004',
-			DISK	=> [3,4],
-			GNRE	=> 'Acid Jazz',
-			GRP	=> 'Grouping',
-			NAM	=> 'Name',
-			TMPO	=> 100,
-			TOO	=> 'iTunes v4.6.0.15, QuickTime 6.5.1',
-			TRKN	=> [1,2],
-			WRT	=> 'Composer',
-			VERSION	=> 4,
-			LAYER	=> 1,
-			BITRATE	=> 50,
-			FREQUENCY => 44.1,
-			SIZE	=> 6962,
-			SECS	=> 1,
-			MM	=> 0,
-			SS	=> 1,
-			MS	=> 90,
-			TIME	=> '00:01',
-			#COPYRIGHT
-			ENCODING=> 'mp4a',
-			ENCRYPTED => 0,
-		       },
+		ALB	=> 'Album',
+		#APID	=>
+		ART	=> 'Artist',
+		CMT	=> "Comment\r\n2nd line",
+		#COVR	=>
+		CPIL	=> 0,
+		#CPRT	=>
+		DAY	=> '2004',
+		DISK	=> [3,4],
+		GNRE	=> 'Acid Jazz',
+		GRP	=> 'Grouping',
+		NAM	=> 'Name',
+		#RTNG	=>
+		TMPO	=> 100,
+		TOO	=> 'iTunes v4.6.0.15, QuickTime 6.5.1',
+		TRKN	=> [1,2],
+		WRT	=> 'Composer',
+		VERSION	=> 4,
+		LAYER	=> 1,
+		BITRATE	=> 50,
+		FREQUENCY => 44.1,
+		SIZE	=> 6962,
+		SECS	=> 1,
+		MM	=> 0,
+		SS	=> 1,
+		MS	=> 90,
+		TIME	=> '00:01',
+		COPYRIGHT => 0,
+		ENCODING  => 'mp4a',
+		ENCRYPTED => 0,
+	},
      't/lossless.m4a' => {
-			ALB	=> 'Album',
-			#APID
-			ART	=> 'Artist',
-			CMT	=> "Comment\r\n2nd line",
-			#COVR
-			CPIL	=> 0,
-			#CPRT
-			DAY	=> '2004',
-			DISK	=> [3,4],
-			GNRE	=> 'Acid Jazz',
-			GRP	=> 'Grouping',
-			NAM	=> 'Name',
-			TMPO	=> 100,
-			TOO	=> 'iTunes v6.0.5.20',
-			TRKN	=> [1,2],
-			WRT	=> 'Composer',
-			VERSION	=> 4,
-			LAYER	=> 1,
-			BITRATE	=> 190,
-			FREQUENCY => 44.1,
-			SIZE	=> 25345,
-			SECS	=> 1,
-			MM	=> 0,
-			SS	=> 1,
-			MS	=> 43,
-			TIME	=> '00:01',
-			#COPYRIGHT
-			ENCODING=> 'alac',
-			ENCRYPTED => 0,
-		       },
+		ALB	=> 'Album',
+		#APID	=>
+		ART	=> 'Artist',
+		CMT	=> "Comment\r\n2nd line",
+		#COVR	=>
+		CPIL	=> 0,
+		#CPRT	=>
+		DAY	=> '2004',
+		DISK	=> [3,4],
+		GNRE	=> 'Acid Jazz',
+		GRP	=> 'Grouping',
+		NAM	=> 'Name',
+		#RTNG	=>
+		TMPO	=> 100,
+		TOO	=> 'iTunes v6.0.5.20',
+		TRKN	=> [1,2],
+		WRT	=> 'Composer',
+		VERSION	=> 4,
+		LAYER	=> 1,
+		BITRATE	=> 190,
+		FREQUENCY => 44.1,
+		SIZE	=> 25345,
+		SECS	=> 1,
+		MM	=> 0,
+		SS	=> 1,
+		MS	=> 43,
+		TIME	=> '00:01',
+		COPYRIGHT => 0,
+		ENCODING  => 'alac',
+		ENCRYPTED => 0,
+	},
      't/nero.mp4' =>   {
-			#ALB
-			#APID
-			ART	=> 'Artist',
-			#CMT
-			#COVR
-			#CPIL
-			#CPRT
-			#DAY
-			#DISK
-			#GNRE
-			#GRP
-			NAM	=> 'Name',
-			#TMPO
-			TOO	=> 'Nero AAC Codec 2.9.9.91',
-			#TRKN
-			#WRT
-			VERSION	=> 4,
-			LAYER	=> 1,
-			BITRATE	=> 21,
-			FREQUENCY => 8,
-			SIZE	=> 3030,
-			SECS	=> 1,
-			MM	=> 0,
-			SS	=> 1,
-			MS	=> 153,
-			TIME	=> '00:01',
-			#COPYRIGHT
-			ENCODING=> 'mp4a',
-			ENCRYPTED => 0,
-		       },
+		#ALB	=>
+		#APID	=>
+		ART	=> 'Artist',
+		#CMT	=>
+		#COVR	=>
+		CPIL	=> 0,
+		#CPRT	=>
+		#DAY	=>
+		#DISK	=>
+		#GNRE	=>
+		#GRP	=>
+		NAM	=> 'Name',
+		#RTNG	=>
+		#TMPO	=>
+		TOO	=> 'Nero AAC Codec 2.9.9.91',
+		#TRKN	=>
+		#WRT	=>
+		VERSION	=> 4,
+		LAYER	=> 1,
+		BITRATE	=> 21,
+		FREQUENCY => 8,
+		SIZE	=> 3030,
+		SECS	=> 1,
+		MM	=> 0,
+		SS	=> 1,
+		MS	=> 153,
+		TIME	=> '00:01',
+		COPYRIGHT => 0,
+		ENCODING  => 'mp4a',
+		ENCRYPTED => 0,
+	},
      't/real.m4a' =>   {
-			ALB	=> 'Album',
-			#APID
-			ART	=> 'A®tist',
-			CMT	=> 'Comment',
-			#COVR
-			#CPIL
-			#CPRT
-			DAY	=> 2004,
-			#DISK
-			GNRE	=> 'Acid Jazz',
-			#GRP
-			NAM	=> 'Nªme',
-			#TMPO
-			TOO	=> 'Helix Producer SDK 10.0 for Windows, Build 10.0.0.240',
-			TRKN	=> [1,0],
-			#WRT
-			VERSION	=> 4,
-			LAYER	=> 1,
-			BITRATE	=> 93,
-			FREQUENCY => 1,	# What part of "the sampling rate of the audio should be ... documented in the samplerate field" don't Real understand?
-			SIZE	=> 131682,
-			SECS	=> 11,
-			MM	=> 0,
-			SS	=> 11,
-			MS	=> 53,
-			TIME	=> '00:11',
-			#COPYRIGHT
-			ENCODING=> 'mp4a',
-			ENCRYPTED => 0,
-		       },
+		ALB	=> 'Album',
+		#APID	=>
+		ART	=> 'A®tist',
+		CMT	=> 'Comment',
+		#COVR	=>
+		CPIL	=> 0,
+		#CPRT	=>
+		DAY	=> 2004,
+		#DISK	=>
+		GNRE	=> 'Acid Jazz',
+		#GRP	=>
+		NAM	=> 'Nªme',
+		#RTNG	=>
+		#TMPO	=>
+		TOO	=> 'Helix Producer SDK 10.0 for Windows, Build 10.0.0.240',
+		TRKN	=> [1,0],
+		#WRT	=>
+		VERSION	=> 4,
+		LAYER	=> 1,
+		BITRATE	=> 93,
+		FREQUENCY => 1,	# What part of "the sampling rate of the audio should be ... documented in the samplerate field" don't Real understand?
+		SIZE	=> 131682,
+		SECS	=> 11,
+		MM	=> 0,
+		SS	=> 11,
+		MS	=> 53,
+		TIME	=> '00:11',
+		COPYRIGHT => 0,
+		ENCODING  => 'mp4a',
+		ENCRYPTED => 0,
+	},
     );
 
 

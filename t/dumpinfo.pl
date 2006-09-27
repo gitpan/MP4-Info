@@ -23,7 +23,7 @@ foreach my $tag (sort keys %$tags)
     }
     elsif ($tag eq 'COVR')
     {
-	print "$tag\t...\n";
+	print "$tag\t",substr($tags->{$tag},0,4),"...\n";
     }
     else
     {

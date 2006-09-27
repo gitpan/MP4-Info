@@ -6,9 +6,9 @@ NAME
 ============================================================================
 CHANGES
 
-    1.10 2006-07-19
-      - Return 'coding name' in new ENCODING key.
-      - Recognise Apple Lossless encoding.
+    1.11 2006-09-27
+      - Fix (again) for zero-length atoms
+      - Fix for files lacking any audio data
 
 ============================================================================
 DESCRIPTION
