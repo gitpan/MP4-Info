@@ -6,5 +6,6 @@ WriteMakefile
      VERSION_FROM	=> 'Info.pm',
      ABSTRACT_FROM	=> 'Info.pm',
      AUTHOR		=> 'Jonathan Harris <jhar@cpan.org>',
-     PREREQ_PM		=> { 'Encode' => '0', },
+     PREREQ_PM		=> { 'Encode' => '0',
+			     'IO::String' => '0'},
     );

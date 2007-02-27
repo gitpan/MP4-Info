@@ -32,5 +32,5 @@ foreach my $tag (sort keys %$tags)
 }
 
 # Local Variables:
-# cperl-set-style: BSD
+# eval: (cperl-set-style "BSD")
 # End:

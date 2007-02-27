@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2004, 2005, Jonathan Harris <jhar@cpan.org>
+# Copyright (c) 2004-2007 Jonathan Harris <jhar@cpan.org>
 #
 # This program is free software; you can redistribute it and/or modify it
 # under the the same terms as Perl itself.
@@ -13,6 +13,7 @@ use Carp;
 use Symbol;
 use Encode;
 use Encode::Guess qw(latin1);
+use IO::String;
 
 use vars qw(
 	    $VERSION @ISA @EXPORT @EXPORT_OK %EXPORT_TAGS $AUTOLOAD
@@ -27,7 +28,7 @@ use vars qw(
 		all	=> [@EXPORT, @EXPORT_OK]
 	       );
 
-$VERSION = '1.11';
+$VERSION = '1.12';
 
 my $debug = 0;
 
@@ -208,7 +209,7 @@ The following keys may be defined:
 	TIME		time in MM:SS, rounded to nearest second
 
 	COPYRIGHT	boolean for audio is copyrighted
-	ENCODING        Audio codec name. Possible values include:
+	ENCODING        audio codec name. Possible values include:
 			'mp4a' - AAC, aacPlus
 			'alac' - Apple lossless
 			'drms' - Apple encrypted AAC
@@ -282,10 +283,12 @@ my %data_atoms =
 # More interesting atoms, but with non-standard data layouts
 my %other_atoms =
     (
+     MOOV => \&parse_moov,
      MDAT => \&parse_mdat,
      META => \&parse_meta,
      MVHD => \&parse_mvhd,
      STSD => \&parse_stsd,
+     UUID => \&parse_uuid,
     );
 
 # Standard container atoms that contain either kind of above atoms
@@ -294,7 +297,6 @@ my %container_atoms =
      ILST => 1,
      MDIA => 1,
      MINF => 1,
-     MOOV => 1,
      STBL => 1,
      TRAK => 1,
      UDTA => 1,
@@ -340,7 +342,7 @@ my @mp4_genres =
 sub parse_file
 {
     my ($file, $tags) = @_;
-    my ($fh, $err, $header);
+    my ($fh, $err, $header, $size);
 
     if (not (defined $file && $file ne ''))
     {
@@ -371,9 +373,11 @@ sub parse_file
 	$@ = 'Not an MPEG-4 file';
 	return -1;
     }
+    seek $fh, 0, 2;
+    $size = tell $fh;
     seek $fh, 0, 0;
 
-    $err = parse_container($fh, 0, (stat $fh)[7], $tags);
+    $err = parse_container($fh, 0, $size, $tags);
     close ($fh);
     return $err if $err;
 
@@ -529,6 +533,26 @@ sub parse_atom
 # Pre:	$size=size of atom contents
 #	$fh points to start of atom contents
 # Post:	$fh points past end of atom contents
+sub parse_moov
+{
+    my ($fh, $level, $size, $tags) = @_;
+
+    # MOOV is a normal container.
+    # Read ahead to improve performance on high-latency filesystems.
+    my $data;
+    if (read ($fh, $data, $size) != $size)
+    {
+	$@ = 'Premature eof';
+	return -1;
+    }
+    my $cache=IO::String->new($data);
+    return parse_container ($cache, $level, $size, $tags);
+}
+
+
+# Pre:	$size=size of atom contents
+#	$fh points to start of atom contents
+# Post:	$fh points past end of atom contents
 sub parse_mdat
 {
     my ($fh, $level, $size, $tags) = @_;
@@ -653,6 +677,55 @@ sub parse_stsd
 }
 
 
+# User-defined box. Used by PSP - See ffmpeg libavformat/movenc.c
+#
+# Pre:	$size=size of atom contents
+#	$fh points to start of atom contents
+# Post:	$fh points past end of atom contents
+sub parse_uuid
+{
+    my ($fh, $level, $size, $tags) = @_;
+    my $data;
+
+    if (read ($fh, $data, $size) != $size)
+    {
+	$@ = 'Premature eof';
+	return -1;
+    }
+    ($size > 26) || return 0;	# 16byte uuid, 10byte psp-specific
+
+    my ($u1,$u2,$u3,$u4)=unpack 'a4NNN', $data;
+    if ($u1 eq 'USMT')	#  PSP also uses a uuid starting with 'PROF'
+    {
+	my ($pspsize,$pspid) = unpack 'Na4', substr ($data, 16, 8);
+	printf "  %s$pspid: $pspsize bytes\n", ' 'x(2*$level) if $debug;
+	($pspsize==$size-16) || return 0;	# sanity check
+	if ($pspid eq 'MTDT')
+	{
+	    my $nblocks = unpack 'n', substr ($data, 24, 2);
+	    $data = substr($data, 26);
+	    while ($nblocks)
+	    {
+		my ($bsize, $btype, $flags, $ptype) = unpack 'nNnn', $data;
+		printf "    %s0x%x: $bsize bytes, Type=$ptype\n", ' 'x(2*$level), $btype if $debug;
+		if ($btype==1 && $bsize>12 && $ptype==1 && !defined($tags->{NAM}))
+		{
+		    # Could have titles in different langauges - use first
+		    $tags->{NAM} = decode("UTF-16BE", substr($data, 10, $bsize-12));
+		}
+		elsif ($btype==4 && $bsize>12 && $ptype==1)
+		{
+		    $tags->{TOO} = decode("UTF-16BE", substr($data, 10, $bsize-12));
+		}
+		$data = substr($data, $bsize);
+		$nblocks-=1;
+	    }
+	}
+    }
+    return 0;
+}
+
+
 # Pre:	$size=size of atom contents
 #	$fh points to start of atom contents
 # Post:	$fh points past end of atom contents
@@ -667,7 +740,8 @@ sub parse_data
 	return -1;
     }
 
-    # 3GPP - different format when child of 'udta'
+    # 3GPP - different format when child of 'udta'.
+    # Let existing tags (if any) override these.
     if (($id eq 'TITL') ||
 	($id eq 'DSCP') ||
 	($id eq 'CPRT') ||
@@ -853,6 +927,8 @@ Chris Nandor E<lt>pudge@pobox.comE<gt> for writing L<MP3::Info|MP3::Info>
 
 Dan Sully at Slim Devices for cover art and iTunes/aacgain metadata patches.
 
+Ruben Laguna for PSP support.
+
 =head1 SEE ALSO
 
 =over 4
@@ -898,5 +974,5 @@ under the the same terms as Perl itself.
 =cut
 
 # Local Variables:
-# cperl-set-style: BSD
+# eval: (cperl-set-style "BSD")
 # End:

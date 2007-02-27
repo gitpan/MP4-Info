@@ -6,9 +6,9 @@ NAME
 ============================================================================
 CHANGES
 
-    1.11 2006-09-27
-      - Fix (again) for zero-length atoms
-      - Fix for files lacking any audio data
+    1.12 2007-02-27
+      - Reads PSP metadata.
+      - Better performance on high-latency filesystems.
 
 ============================================================================
 DESCRIPTION
