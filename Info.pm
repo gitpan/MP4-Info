@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2004-2007 Jonathan Harris <jhar@cpan.org>
+# Copyright (c) 2004-2010 Jonathan Harris <jhar@cpan.org>
 #
 # This program is free software; you can redistribute it and/or modify it
 # under the the same terms as Perl itself.
@@ -28,7 +28,7 @@ use vars qw(
 		all	=> [@EXPORT, @EXPORT_OK]
 	       );
 
-$VERSION = '1.12';
+$VERSION = '1.13';
 
 my $debug = 0;
 
@@ -402,7 +402,7 @@ sub parse_file
     # Returns actual (not requested) bitrate
     if (defined($tags->{SIZE}) && $tags->{SIZE} && defined($tags->{SECS}) && ($tags->{MM}+$tags->{SS}+$tags->{MS}))
     {
-	$tags->{BITRATE}  = int (0.5 + $tags->{SIZE} / (($tags->{MM}*60+$tags->{SS}+$tags->{MS}/1000)*128))
+	$tags->{BITRATE}  = int (0.5 + $tags->{SIZE} * 0.008 / ($tags->{MM}*60+$tags->{SS}+$tags->{MS}/1000))
     }
 
     # Post process '---' container
@@ -908,9 +908,6 @@ __END__
 
 Doesn't support writing tag information to MPEG-4 files.
 
-The calculation of bitrate is not very accurate, and tends to be under the
-real bitrate.
-
 If you find a bug, please send me a patch. If you cannot figure out why it
 does not work for you, please put the MP4 file in a place where I can get it
 (preferably via FTP, or HTTP) and send me mail regarding where I can get the
@@ -966,7 +963,7 @@ L<http://search.cpan.org/~cnandor/MP3-Info/>
 
 =head1 COPYRIGHT and LICENSE
 
-Copyright (c) 2004, 2005, 2006, Jonathan Harris E<lt>jhar@cpan.orgE<gt>
+Copyright (c) 2004-2010, Jonathan Harris E<lt>jhar@cpan.orgE<gt>
 
 This program is free software; you can redistribute it and/or modify it
 under the the same terms as Perl itself.

@@ -17,7 +17,7 @@ if (!defined ($tags))
 
 foreach my $tag (sort keys %$tags)
 {
-    if (exists $tags->{$tag}[0])
+    if (exists $tags->{$tag}[1])
     {
 	print "$tag\t", $tags->{$tag}[0], "/",  $tags->{$tag}[1], "\n";
     }
